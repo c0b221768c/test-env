@@ -4,7 +4,6 @@ FROM nvidia/cuda:12.2.0-runtime-ubuntu22.04
 # 必要なツールとAPTのパラレルダウンロードを設定
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl gpg && \
-    echo 'Acquire::Queue-Mode "host";' > /etc/apt/apt.conf.d/99parallel && \
     ## uv
     curl -LsSf https://astral.sh/uv/install.sh | sh && \
     ## nvidia-container-toolkit
@@ -17,11 +16,3 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     nvidia-container-toolkit && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# 環境変数の設定
-ENV PATH="/root/.local/bin:$PATH"
-
-# 作業ディレクトリの設定
-WORKDIR /usr/local/app
-
-# 必要なファイルをコンテナにコピー
-COPY . .
